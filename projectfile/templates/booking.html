@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="booking-container">
+    <h1 class="title">Book Tickets for {{ movie_name }}</h1>
+    <form method="POST" action="/confirm_booking/{{ show_id }}" class="booking-form">
+        
+        <!-- Select Date -->
+        <div class="form-section">
+            <label for="date" class="form-label">Select Date</label>
+            <input type="date" id="date" name="date" class="form-input" required>
+        </div>
+        
+
+        <!-- Select Theater and Time -->
+        <div class="form-section">
+            <label for="screening" class="form-label">Select Theater and Time</label>
+            <select id="screening" name="screening" class="form-input" required>
+                {% for screening in screenings %}
+                <option value="{{ screening['id'] }}">
+                    {{ screening['theater'] }} - {{ screening['time'].strftime('%Y-%m-%d %H:%M') }} 
+                    (Price: ${{ screening['ticket_price'] }})
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Number of Seats -->
+        <div class="form-section">
+            <label for="seats" class="form-label">Number of Seats</label>
+            <input type="number" id="seats" name="seats" class="form-input" min="1" max="10" required>
+        </div>
+        
+        <!-- Select Your Seats -->
+        <div class="form-section">
+            <label class="form-label">Select Your Seats</label>
+            <div class="seat-container">
+                {% for seat in available_seats %}
+                <button type="button" class="seat" id="seat-{{ seat }}" onclick="toggleSeat('{{ seat }}')">{{ seat }}</button>
+                {% endfor %}
+                <input type="hidden" name="selected_seats" id="selected-seats">
+            </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <div class="form-section">
+            <button type="submit" class="btn-primary">Confirm Booking</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}

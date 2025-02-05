@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="profile">
+    <h1>Welcome to Your Profile, {{ user_data['UserName'] }}!</h1>
+    <p><strong>User ID:</strong> {{ user_data['UserId'] }}</p>
+    <p><strong>Email:</strong> {{ user_data['Email'] }}</p>
+    <p><strong>Country:</strong> {{ user_data['Country'] }}</p>
+    <p><strong>Liked Category:</strong> {{ user_data['LikedCategory'] }}</p>
+
+    <h2>Watched Shows:</h2>
+    <ul>
+        {% if watched_shows %}
+            {% for show in watched_shows %}
+            <li>
+                {{ show['ShowName'] }} ({{ show['ReleaseDate'] }})
+                <form method="POST" action="{{ url_for('remove_from_list', show_id=show['ShowId']) }}">
+                    <input type="hidden" name="list_type" value="watched">
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                </form>
+            </li>
+            {% endfor %}
+        {% else %}
+            <p>No watched shows yet.</p>
+        {% endif %}
+    </ul>
+
+    <h2>Planned Shows:</h2>
+    <ul>
+        {% if planned_shows %}
+            {% for show in planned_shows %}
+            <li>
+                {{ show['ShowName'] }} ({{ show['ReleaseDate'] }})
+                <form method="POST" action="{{ url_for('remove_from_list', show_id=show['ShowId']) }}">
+                    <input type="hidden" name="list_type" value="planned">
+                    <button class="btn btn-danger" type="submit">Remove</button>
+                </form>
+            </li>
+            {% endfor %}
+        {% else %}
+            <p>No planned shows yet.</p>
+        {% endif %}
+    </ul>
+
+    <h2>My Bookings</h2>
+    <ul>
+        {% if bookings %}
+            {% for booking in bookings %}
+            <li>
+                <strong>ID:</strong> {{ booking['id'] }} <br>
+                <strong>Movie:</strong> {{ booking['ShowName'] }} <br>
+                <strong>Theater:</strong> {{ booking['theater'] }} <br>
+                <strong>Time:</strong> {{ booking['time'] }} <br>
+                <strong>Seats:</strong> {{ booking['seats'] }} <br>
+                <strong>Total Cost:</strong> {{ booking['total_cost'] }} <br>
+                <strong>Payment Status:</strong> {{ booking['payment_status'] }}
+                
+                <div class="action-buttons">
+                    <form method="POST" action="{{ url_for('cancel_booking', booking_id=booking['id']) }}">
+                        <button type="submit" class="btn btn-danger" id="can">Cancel</button>
+                    </form>
+                    {% if booking['payment_status'] == 'Pending' %}
+                    <form method="POST" action="{{ url_for('make_payment', booking_id=booking['id']) }}">
+                        <button type="submit" class="btn btn-primary" id="pay">Make Payment</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        {% else %}
+            <p>You have no bookings yet.</p>
+        {% endif %}
+    </ul>
+
+    <a href="/logout" class="btn">Log Out</a>
+</div>
+{% endblock %}

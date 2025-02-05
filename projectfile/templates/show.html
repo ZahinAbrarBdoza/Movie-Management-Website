@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="show-page-container">
+    <!-- Movie Details Section -->
+    <div class="movie-details-container">
+        <div class="movie-details">
+            <h1 class="movie-title">{{ show_data[0] }}</h1>
+            <ul class="movie-info">
+                <li><strong>Type:</strong> {{ show_data[5] }}</li>
+                <li><strong>Release Date:</strong> {{ show_data[1] }}</li>
+                <li><strong>Genre:</strong> {{ show_data[2] }}</li>
+                <li><strong>Rating:</strong> {{ show_data[3] }}</li>
+                <li><strong>Language:</strong> {{ show_data[4] }}</li>
+            </ul>
+        
+        </div>
+        <div class="movie-poster">
+            <img src="{{ show_data[7] }}" alt="{{ show_data[0] }} Poster">
+        </div>
+    </div>
+
+    <!-- Trailer Section -->
+    <div class="trailer-container">
+        <h2 class="section-title">Watch Trailer</h2>
+        <div class="trailer-wrapper">
+            <iframe
+                src="{{ trailer_url }}"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Screening Times Section -->
+    <div class="screenings-container">
+        <h2 class="section-title">Screening Times and Theaters</h2>
+        {% if screenings %}
+        <table class="screenings-table">
+            <thead>
+                <tr>
+                    <th>Theater</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for screening in screenings %}
+                <tr>
+                    <td>{{ screening["theater"] }}</td>
+                    <td>{{ screening["time"].strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+         <!-- Booking Section -->
+        <div class="booking-container">
+            <h2 class="section-title">Book Your Tickets</h2>
+            <form method="GET" action="{{ url_for('booking_page', show_id=show_id) }}">
+                <button type="submit" class="btn btn-primary">Book Now</button>
+            </form>
+        </div>
+        {% else %}
+        <p class="no-screenings">No screenings available for this movie.</p>
+        {% endif %}
+    </div>
+
+    <!-- Action Buttons Section -->
+    <div class="action-buttons">
+        <form method="POST" action="{{ url_for('add_to_list', show_id=show_id) }}">
+            <input type="hidden" name="list_type" value="watched">
+            <button type="submit" class="btn btn-primary">Add to Watched</button>
+        </form>
+        <form method="POST" action="{{ url_for('add_to_list', show_id=show_id) }}">
+            <input type="hidden" name="list_type" value="planned">
+            <button type="submit" class="btn btn-primary">Add to Planned</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

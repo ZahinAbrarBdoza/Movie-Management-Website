@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="search-results">
+    <h1>Search Results for '{{ search_query }}'</h1>
+    <ul class="show-list">
+        {% if results %}
+            {% for show_id, show_data in results %}
+                <li>
+                    <a href="/show/{{ show_id }}" class="show-link">
+                        <img src="{{ show_data[7] }}" alt="{{ show_data[0] }} Poster" class="show-poster">
+                        {{ show_data[0] }}
+                    </a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>No TV shows found matching '{{ search_query }}'.</p>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

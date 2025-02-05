@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row mt-5 discussion-page"> <!-- Apply the discussion-page class here -->
+    <div class="col-md-8 offset-md-2">
+        <h1 class="mb-4" style="margin-bottom: 20px;">Discussion</h1>
+        <div class="table-responsive">
+           <center> <table class="table table-bordered">
+                <tbody>
+                    {% for message_data in discussion_data %}
+                        <tr>
+                            <td>
+                                <div class="chat-box p-3 border rounded">
+                                    <strong class="chat-user"> {{ message_data['UserName'] }}:</strong>
+                                    <p class="chat-message">{{ message_data['Comment'] }}</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table></center>
+        </div>
+        <form method="post" action="{{ url_for('add_discussion_message') }}" class="mt-4">
+            <div class="input-group">
+                <input type="text" name="message" class="form-control form-control-lg message-input" style="margin-bottom: 20px" placeholder="Enter your message">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary btn-lg" style="margin-bottom: 20px; width: 200px; height: 50px; border-radius: 10px; font-family: ‘Lobster’, cursive;">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

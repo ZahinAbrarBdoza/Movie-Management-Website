@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="register-form">
+    <h1>Register</h1>
+    {% if username_exists %}
+    <p class="error-message">Username already exists. Please choose a different username.</p>
+    {% endif %}
+    <form method="post" action="/register">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" required><br>
+        <label for="liked_category">Liked Category:</label>
+        <select id="liked_category" name="liked_category" class="form-control" required><br>
+            <option value="Action">Action</option>
+            <option value="Drama">Drama</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Horror">Horror</option>
+            <option value="Science Fiction">Science Fiction</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Thriller">Thriller</option>
+            <option value="Romance">Romance</option>
+        </select><br>
+
+        <input type="submit" value="Register">
+    </form>
+</div>
+{% endblock %}

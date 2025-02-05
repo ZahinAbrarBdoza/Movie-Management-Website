@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="admin-container">
+    <h2>Admin Panel</h2>
+
+    {% if user_data %}
+      <div class="alert alert-info">
+        <p><strong>User Information</strong></p>
+        <p><strong>User ID:</strong> {{ user_data.id }}</p>
+        <p><strong>Username:</strong> {{ user_data.username }}</p>
+        <p><strong>Email:</strong> {{ user_data.email }}</p>
+        <p><strong>Country:</strong> {{ user_data.country }}</p>
+        <p><strong>Liked Category:</strong> {{ user_data.liked_category }}</p>
+        <p><strong>Watched Shows:</strong> {{ user_data.watched_shows }}</p>
+        <p><strong>Planned Shows:</strong> {{ user_data.planned_shows }}</p>
+      </div>
+    {% else %}
+      <p>No user information available. Please search for a user.</p>
+    {% endif %}
+
+    <!-- User Search Form -->
+    <form method="POST" class="user-search-form">
+        <label for="user_identifier">Search for User by UserID:</label>
+        <input type="text" id="user_identifier" name="user_identifier" placeholder="Enter User ID">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Toggle Buttons -->
+    <div class="toggle-buttons">
+        <form method="POST" action="{{ url_for('toggle_add_show') }}">
+            <button type="submit">Toggle Add New TV Show</button>
+        </form>
+    </div>
+    <div class="toggle-buttons">
+        <form method="POST" action="{{ url_for('toggle_show_list') }}">
+            <button type="submit">Toggle Show List</button>
+        </form>
+    </div>
+
+    <!-- Add New TV Show Form -->
+    {% if add_show_visible %}
+    <form method="POST" class="add-show-form">
+        <h3>Add New TV Show</h3>
+        <label for="show_name">Show Name:</label>
+        <input type="text" id="show_name" name="show_name" required>
+        
+        <label for="release_date">Release Date:</label>
+        <input type="date" id="release_date" name="release_date" required>
+
+        <label for="genre">Genre:</label>
+        <input type="text" id="genre" name="genre" required>
+
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" name="rating" min="1" max="10" required>
+
+        <label for="language">Language:</label>
+        <input type="text" id="language" name="language" required>
+
+        <label for="show_type">Show Type:</label>
+        <select id="show_type" name="show_type" required>
+            <option value="TV Show">TV Show</option>
+            <option value="Movie">Movie</option>
+        </select>
+
+        <button type="submit" name="add_show">Add Show</button>
+    </form>
+    {% endif %}
+
+    <!-- TV Show List -->
+    {% if show_list_visible %}
+    <div class="table-container">
+        <h3>TV Show List</h3>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Show ID</th>
+                    <th>Show Name</th>
+                    <th>Release Date</th>
+                    <th>Genre</th>
+                    <th>Rating</th>
+                    <th>Language</th>
+                    <th>Show Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for show_id, show_data in tv_shows.items() %}
+                <tr>
+                    <td>{{ show_id }}</td>
+                    <td>{{ show_data[0] }}</td>
+                    <td>{{ show_data[1] }}</td>
+                    <td>{{ show_data[2] }}</td>
+                    <td>{{ show_data[3] }}</td>
+                    <td>{{ show_data[4] }}</td>
+                    <td>{{ show_data[5] }}</td>
+                    <td>
+                        <form method="POST">
+                            <button type="submit" name="delete_show" value="{{ show_id }}">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- Ticket Sales Report -->
+    <div class="admin-report">
+        <h3>Reports</h3>
+        <ul>
+            <li><a href="{{ url_for('admin_report') }}" class="btn btn-primary">View Ticket Sales Report</a></li>
+        </ul>
+    </div>
+
+    <!-- Display Ticket Sales Report -->
+    {% if report_data %}
+    <div class="table-container">
+        <h3>Ticket Sales Report</h3>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Show Name</th>
+                    <th>Theater</th>
+                    <th>Tickets Sold</th>
+                    <th>Total Seats</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in report_data %}
+                <tr>
+                    <td>{{ report['ShowName'] }}</td>
+                    <td>{{ report['theater'] }}</td>
+                    <td>{{ report['tickets_sold'] }}</td>
+                    <td>{{ report['total_seats'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

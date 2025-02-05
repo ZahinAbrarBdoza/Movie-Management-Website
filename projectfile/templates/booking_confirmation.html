@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="booking-confirmation">
+    <h2 class="confirmation-title">Booking Confirmation</h2>
+    <div class="confirmation-details">
+        <p><strong>Booking ID:</strong> {{ booking['id'] }}</p>
+        <p><strong>Movie:</strong> {{ booking['ShowName'] }}</p>
+        <p><strong>Theater:</strong> {{ booking['theater'] }}</p>
+        <p><strong>Time:</strong> {{ booking['time'] }}</p>
+        <p><strong>Seats:</strong> {{ booking['seats'] }}</p>
+        <p><strong>Total Cost:</strong> ${{ booking['total_cost'] }}</p>
+        <p><strong>Payment Status:</strong> {{ booking['payment_status'] }}</p>
+    </div>
+    <div class="confirmation-actions">
+        <form method="POST" action="{{ url_for('cancel_booking', booking_id=booking['id']) }}">
+            <button type="submit" class="btn btn-danger">Cancel</button>
+        </form>
+        {% if booking['payment_status'] == 'Pending' %}
+        <form method="POST" action="{{ url_for('make_payment', booking_id=booking['id']) }}">
+            <button type="submit" class="btn btn-primary">Make Payment</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

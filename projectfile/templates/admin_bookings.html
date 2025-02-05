@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>All Bookings</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>User</th>
+            <th>Movie</th>
+            <th>Theater</th>
+            <th>Time</th>
+            <th>Seats</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking['id'] }}</td>
+            <td>{{ booking['UserName'] }}</td>
+            <td>{{ booking['ShowName'] }}</td>
+            <td>{{ booking['theater'] }}</td>
+            <td>{{ booking['time'] }}</td>
+            <td>{{ booking['seats'] }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('cancel_booking', booking_id=booking['id']) }}">
+                    <button type="submit">Cancel</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

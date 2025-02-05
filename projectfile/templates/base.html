@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask based Movie Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="top-bar" style="background-image: url('static/';");>
+        <div class="logo">
+            <a href="/">MovieManager</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="{{ url_for('admin') }}">Admin</a></li>
+            <li><a href="/shows">TV Shows</a></li>
+            <li><a href="/discussion">Discussion</a></li>
+            <!--<li><a href="/login">Login</a></li>-->
+            <li><a href="{{ url_for('profile') }}">Profile</a></li>
+        </ul>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <!-- Block for page-specific scripts -->
+    {% block scripts %}{% endblock %}
+
+    <footer>
+        <!-- Footer content here -->
+    </footer>
+</body>
+</html>

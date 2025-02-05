@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home">
+    <h1 style="margin-bottom: 20px;">Welcome to Our TV Show Platform</h1>
+    
+    <!-- Search Bar -->
+    <form action="/search" method="get" class="search-form" style="margin-bottom: 20px;">
+        <input type="text" name="query" placeholder="Search for TV shows..." class="search-input">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+
+        <!-- Recommended for You -->
+    {% if recommendations %}
+    <div class="recommended-shows" style="margin-top: 50px;">
+        <h2>Recommended for You</h2>
+        <ul class="show-list">
+            {% for show_id, show_data in recommendations.items() %}
+            <li class="show-item">
+                <a href="/show/{{ show_id }}" class="show-link">
+                    <img src="{{ show_data[7] }}" alt="{{ show_data[0] }}" class="show-image">
+                    <span class="show-title">{{ show_data[0] }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>    
+    {% else %}
+    <p style="margin-top: 50px;">Log in to see personalized recommendations.</p>
+    {% endif %}
+
+
+    <!-- Trending TV Shows -->
+    <div class="trending-shows" style="margin-top: 50px;">
+        <h2>Trending TV Shows </h2 >
+        {% if trending_shows %}
+            <ul class="show-list">
+                {% for show_id, show_data in trending_shows.items() %}
+                    <li class="show-item">
+                        <a href="/show/{{ show_id }}" class="show-link">
+                            <img src="{{ show_data[7] }}" alt="{{ show_data[0] }}" class="show-image">
+                            <span class="show-title">{{ show_data[0] }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No trending shows available.</p>
+        {% endif %}
+    </div>
+    
+    <!-- Top 10 TV Shows (Based on Rating) -->
+    <div class="top-10-shows" style="margin-top: 50px;">
+        <h2>Top 10 TV Shows</h2>
+        {% if top_10_shows %}
+            <ul class="show-list">
+                {% for show_id, show_data in top_10_shows %}
+                    <li class="show-item">
+                        <a href="/show/{{ show_id }}" class="show-link">
+                            <img src="{{ show_data[7] }}" alt="{{ show_data[0] }}" class="show-image">
+                            <span class="show-title">{{ show_data[0] }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No top shows available.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

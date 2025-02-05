@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="show-list" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 40px 20px;">
+
+    <div class="show-category" style="background-image: url('static/wed.jpg');">
+        <h2>TV Series</h2>
+        <ul>
+            {% for show_id, show_data in tv_shows.items() if show_data[5] == "Series" %}
+            <li><a href="/show/{{ show_id }}">{{ show_data[0] }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="show-category" style="background-image: url('static/batman.jpg');">
+        <h2>Movies</h2>
+        <ul>
+            {% for show_id, show_data in tv_shows.items() if show_data[5] == "Movie" %}
+            <li><a href="/show/{{ show_id }}">{{ show_data[0] }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="show-category" style="background-image: url('static/anm.jpg');">
+        <h2>Anime</h2>
+        <ul>
+            {% for show_id, show_data in tv_shows.items() if show_data[5] == "Anime" %}
+            <li><a href="/show/{{ show_id }}">{{ show_data[0] }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="login-form" style="background-image: url('/static/a.gif'); background-size: cover;">
+    <h1>Admin Login</h1>
+    {% if authentication_failed %}
+        <p class="error">Authentication failed. Please check your credentials.</p>
+    {% endif %}
+    <form action="/admin" method="post">
+        <label for="admin_name">Admin Name:</label>
+        <input type="text" id="admin_name" name="admin_name" required>
+
+        <label for="admin_password">Password:</label>
+        <input type="password" id="admin_password" name="admin_password" required>
+
+        <input type="submit" value="Login">
+    </form>
+
+</div>
+{% endblock %}
