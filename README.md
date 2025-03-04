@@ -88,6 +88,7 @@ Open a browser and visit: [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 Feel free to fork this repository, improve the project, and submit a pull request.
 
-## License
+### 🔗 Connect With Me  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://www.linkedin.com/in/md-zahin-abrar-badruddoza-9022a421a)  
+[![GitHub](https://img.shields.io/badge/GitHub-Visit-lightgrey)](https://github.com/ZahinAbrarBdoza)  
 
-This project is licensed under the MIT License.
